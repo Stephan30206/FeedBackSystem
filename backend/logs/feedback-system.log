@@ -1,0 +1,1615 @@
+2026-02-19 02:24:56 [UAZ-HikariCP:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - UAZ-HikariCP - Thread starvation or clock leap detected (housekeeper delta=3h4s873ms965µs800ns).
+2026-02-19 03:41:23 [UAZ-HikariCP:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - UAZ-HikariCP - Thread starvation or clock leap detected (housekeeper delta=1h16m34s468ms277µs900ns).
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /auth/login
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing POST /auth/login
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured POST /auth/login
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - POST "/api/auth/login", parameters={}
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.AuthController#login(LoginRequest)
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Read "application/json;charset=UTF-8" to [LoginRequest(username=ZOKY, password=zandry123)]
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [LoginResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJaT0tZIiwiaWF0IjoxNzcxNDY5MzYzLCJleHAiOjE3NzE1NTU (truncated)...]
+2026-02-19 05:49:23 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 05:49:24 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /courses
+2026-02-19 05:49:24 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /courses
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses", parameters={}
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getAllCourses()
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        Course c 
+    WHERE
+        c.isActive = TRUE */ select
+            c1_0.course_id,
+            c1_0.code,
+            c1_0.created_at,
+            c1_0.credits,
+            c1_0.department,
+            c1_0.description,
+            c1_0.is_active,
+            c1_0.name,
+            c1_0.semester,
+            c1_0.teacher_id,
+            c1_0.type,
+            c1_0.updated_at 
+        from
+            courses c1_0 
+        where
+            c1_0.is_active=true
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.password_hash,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.user_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[CourseDTO(courseId=1, name=Programmation Java, code=INFO301, description=Cours avanc‚ de programmat (truncated)...]
+2026-02-19 05:49:24 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses", parameters={}
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getAllCourses()
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        Course c 
+    WHERE
+        c.isActive = TRUE */ select
+            c1_0.course_id,
+            c1_0.code,
+            c1_0.created_at,
+            c1_0.credits,
+            c1_0.department,
+            c1_0.description,
+            c1_0.is_active,
+            c1_0.name,
+            c1_0.semester,
+            c1_0.teacher_id,
+            c1_0.type,
+            c1_0.updated_at 
+        from
+            courses c1_0 
+        where
+            c1_0.is_active=true
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.password_hash,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.user_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[CourseDTO(courseId=1, name=Programmation Java, code=INFO301, description=Cours avanc‚ de programmat (truncated)...]
+2026-02-19 05:49:24 [http-nio-8080-exec-3] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses", parameters={}
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getAllCourses()
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        Course c 
+    WHERE
+        c.isActive = TRUE */ select
+            c1_0.course_id,
+            c1_0.code,
+            c1_0.created_at,
+            c1_0.credits,
+            c1_0.department,
+            c1_0.description,
+            c1_0.is_active,
+            c1_0.name,
+            c1_0.semester,
+            c1_0.teacher_id,
+            c1_0.type,
+            c1_0.updated_at 
+        from
+            courses c1_0 
+        where
+            c1_0.is_active=true
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.password_hash,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.user_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[CourseDTO(courseId=1, name=Programmation Java, code=INFO301, description=Cours avanc‚ de programmat (truncated)...]
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses", parameters={}
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getAllCourses()
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        Course c 
+    WHERE
+        c.isActive = TRUE */ select
+            c1_0.course_id,
+            c1_0.code,
+            c1_0.created_at,
+            c1_0.credits,
+            c1_0.department,
+            c1_0.description,
+            c1_0.is_active,
+            c1_0.name,
+            c1_0.semester,
+            c1_0.teacher_id,
+            c1_0.type,
+            c1_0.updated_at 
+        from
+            courses c1_0 
+        where
+            c1_0.is_active=true
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        cs1_0.stat_id,
+        cs1_0.avg_rating_clarity,
+        cs1_0.avg_rating_material,
+        cs1_0.avg_rating_overall,
+        cs1_0.avg_rating_pedagogy,
+        cs1_0.course_id,
+        cs1_0.last_updated,
+        cs1_0.total_reviews 
+    from
+        course_statistics cs1_0 
+    where
+        cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.password_hash,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.user_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [[CourseDTO(courseId=1, name=Programmation Java, code=INFO301, description=Cours avanc‚ de programmat (truncated)...]
+2026-02-19 05:49:36 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 05:49:39 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /courses/2
+2026-02-19 05:49:39 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /courses/2
+2026-02-19 05:49:39 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses/2
+2026-02-19 05:49:39 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:39 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses/2
+2026-02-19 05:49:39 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses/2", parameters={}
+2026-02-19 05:49:39 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getCourseById(Integer)
+2026-02-19 05:49:39 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.course_id,
+        c1_0.code,
+        c1_0.created_at,
+        c1_0.credits,
+        c1_0.department,
+        c1_0.description,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.semester,
+        s1_0.stat_id,
+        s1_0.avg_rating_clarity,
+        s1_0.avg_rating_material,
+        s1_0.avg_rating_overall,
+        s1_0.avg_rating_pedagogy,
+        s1_0.course_id,
+        s1_0.last_updated,
+        s1_0.total_reviews,
+        c1_0.teacher_id,
+        c1_0.type,
+        c1_0.updated_at 
+    from
+        courses c1_0 
+    left join
+        course_statistics s1_0 
+            on c1_0.course_id=s1_0.course_id 
+    where
+        c1_0.course_id=?
+2026-02-19 05:49:39 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.password_hash,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.user_id=?
+2026-02-19 05:49:39 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:39 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 05:49:39 [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [CourseDTO(courseId=2, name=Base de Donn‚es, code=INFO302, description=Introduction aux systŠmes de g (truncated)...]
+2026-02-19 05:49:39 [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 05:49:39 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses/2
+2026-02-19 05:49:39 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /reviews/course/2?page=0&size=20
+2026-02-19 05:49:39 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:39 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /reviews/course/2?page=0&size=20
+2026-02-19 05:49:39 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses/2
+2026-02-19 05:49:39 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses/2", parameters={}
+2026-02-19 05:49:39 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:39 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getCourseById(Integer)
+2026-02-19 05:49:40 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /reviews/course/2?page=0&size=20
+2026-02-19 05:49:40 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/reviews/course/2?page=0&size=20", parameters={masked}
+2026-02-19 05:49:40 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.ReviewController#getReviewsByCourse(Integer, Integer, Integer)
+2026-02-19 05:49:40 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.course_id,
+        c1_0.code,
+        c1_0.created_at,
+        c1_0.credits,
+        c1_0.department,
+        c1_0.description,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.semester,
+        s1_0.stat_id,
+        s1_0.avg_rating_clarity,
+        s1_0.avg_rating_material,
+        s1_0.avg_rating_overall,
+        s1_0.avg_rating_pedagogy,
+        s1_0.course_id,
+        s1_0.last_updated,
+        s1_0.total_reviews,
+        c1_0.teacher_id,
+        c1_0.type,
+        c1_0.updated_at 
+    from
+        courses c1_0 
+    left join
+        course_statistics s1_0 
+            on c1_0.course_id=s1_0.course_id 
+    where
+        c1_0.course_id=?
+2026-02-19 05:49:40 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        r 
+    FROM
+        Review r 
+    WHERE
+        r.course.courseId = :courseId 
+        AND r.moderationStatus = :status 
+    order by
+        r.createdAt desc */ select
+            r1_0.review_id,
+            r1_0.anonymous,
+            r1_0.comment,
+            r1_0.course_id,
+            r1_0.created_at,
+            r1_0.is_moderated,
+            r1_0.moderation_status,
+            r1_0.rating_clarity,
+            r1_0.rating_material,
+            r1_0.rating_overall,
+            r1_0.rating_pedagogy,
+            r1_0.updated_at,
+            r1_0.user_id 
+        from
+            reviews r1_0 
+        where
+            r1_0.course_id=? 
+            and r1_0.moderation_status=? 
+        order by
+            r1_0.created_at desc 
+        fetch
+            first ? rows only
+2026-02-19 05:49:40 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.password_hash,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.user_id=?
+2026-02-19 05:49:40 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:40 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 05:49:40 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [CourseDTO(courseId=2, name=Base de Donn‚es, code=INFO302, description=Introduction aux systŠmes de g (truncated)...]
+2026-02-19 05:49:40 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 05:49:40 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 05:49:40 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [Page 1 of 0 containing UNKNOWN instances]
+2026-02-19 05:49:40 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 05:49:40 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /reviews/course/2?page=0&size=20
+2026-02-19 05:49:40 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /courses/2/statistics
+2026-02-19 05:49:40 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:40 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses/2/statistics
+2026-02-19 05:49:40 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /reviews/course/2?page=0&size=20
+2026-02-19 05:49:40 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/reviews/course/2?page=0&size=20", parameters={masked}
+2026-02-19 05:49:40 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:40 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.ReviewController#getReviewsByCourse(Integer, Integer, Integer)
+2026-02-19 05:49:40 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        r 
+    FROM
+        Review r 
+    WHERE
+        r.course.courseId = :courseId 
+        AND r.moderationStatus = :status 
+    order by
+        r.createdAt desc */ select
+            r1_0.review_id,
+            r1_0.anonymous,
+            r1_0.comment,
+            r1_0.course_id,
+            r1_0.created_at,
+            r1_0.is_moderated,
+            r1_0.moderation_status,
+            r1_0.rating_clarity,
+            r1_0.rating_material,
+            r1_0.rating_overall,
+            r1_0.rating_pedagogy,
+            r1_0.updated_at,
+            r1_0.user_id 
+        from
+            reviews r1_0 
+        where
+            r1_0.course_id=? 
+            and r1_0.moderation_status=? 
+        order by
+            r1_0.created_at desc 
+        fetch
+            first ? rows only
+2026-02-19 05:49:40 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 05:49:40 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [Page 1 of 0 containing UNKNOWN instances]
+2026-02-19 05:49:40 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses/2/statistics
+2026-02-19 05:49:40 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses/2/statistics", parameters={}
+2026-02-19 05:49:40 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getCourseStatistics(Integer)
+2026-02-19 05:49:40 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 05:49:40 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.course_id,
+        c1_0.code,
+        c1_0.created_at,
+        c1_0.credits,
+        c1_0.department,
+        c1_0.description,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.semester,
+        s1_0.stat_id,
+        s1_0.avg_rating_clarity,
+        s1_0.avg_rating_material,
+        s1_0.avg_rating_overall,
+        s1_0.avg_rating_pedagogy,
+        s1_0.course_id,
+        s1_0.last_updated,
+        s1_0.total_reviews,
+        c1_0.teacher_id,
+        c1_0.type,
+        c1_0.updated_at 
+    from
+        courses c1_0 
+    left join
+        course_statistics s1_0 
+            on c1_0.course_id=s1_0.course_id 
+    where
+        c1_0.course_id=?
+2026-02-19 05:49:40 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:40 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 05:49:40 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [CourseStatisticsDTO(courseId=2, courseName=Base de Donn‚es, avgRatingOverall=null, avgRatingClarity= (truncated)...]
+2026-02-19 05:49:40 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 05:49:40 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses/2/statistics
+2026-02-19 05:49:40 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 05:49:40 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses/2/statistics
+2026-02-19 05:49:40 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses/2/statistics", parameters={}
+2026-02-19 05:49:40 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getCourseStatistics(Integer)
+2026-02-19 05:49:40 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.course_id,
+        c1_0.code,
+        c1_0.created_at,
+        c1_0.credits,
+        c1_0.department,
+        c1_0.description,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.semester,
+        s1_0.stat_id,
+        s1_0.avg_rating_clarity,
+        s1_0.avg_rating_material,
+        s1_0.avg_rating_overall,
+        s1_0.avg_rating_pedagogy,
+        s1_0.course_id,
+        s1_0.last_updated,
+        s1_0.total_reviews,
+        c1_0.teacher_id,
+        c1_0.type,
+        c1_0.updated_at 
+    from
+        courses c1_0 
+    left join
+        course_statistics s1_0 
+            on c1_0.course_id=s1_0.course_id 
+    where
+        c1_0.course_id=?
+2026-02-19 05:49:40 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 05:49:40 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 05:49:40 [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [CourseStatisticsDTO(courseId=2, courseName=Base de Donn‚es, avgRatingOverall=null, avgRatingClarity= (truncated)...]
+2026-02-19 05:49:40 [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 06:58:24 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /courses/2
+2026-02-19 06:58:24 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /courses/2
+2026-02-19 06:58:24 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses/2
+2026-02-19 06:58:24 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 06:58:24 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses/2
+2026-02-19 06:58:24 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses/2", parameters={}
+2026-02-19 06:58:25 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getCourseById(Integer)
+2026-02-19 06:58:25 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.course_id,
+        c1_0.code,
+        c1_0.created_at,
+        c1_0.credits,
+        c1_0.department,
+        c1_0.description,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.semester,
+        s1_0.stat_id,
+        s1_0.avg_rating_clarity,
+        s1_0.avg_rating_material,
+        s1_0.avg_rating_overall,
+        s1_0.avg_rating_pedagogy,
+        s1_0.course_id,
+        s1_0.last_updated,
+        s1_0.total_reviews,
+        c1_0.teacher_id,
+        c1_0.type,
+        c1_0.updated_at 
+    from
+        courses c1_0 
+    left join
+        course_statistics s1_0 
+            on c1_0.course_id=s1_0.course_id 
+    where
+        c1_0.course_id=?
+2026-02-19 06:58:25 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.password_hash,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.user_id=?
+2026-02-19 06:58:25 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 06:58:25 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 06:58:25 [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [CourseDTO(courseId=2, name=Base de Donn‚es, code=INFO302, description=Introduction aux systŠmes de g (truncated)...]
+2026-02-19 06:58:25 [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 06:58:25 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses/2
+2026-02-19 06:58:25 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /reviews/course/2?page=0&size=20
+2026-02-19 06:58:25 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /reviews/course/2?page=0&size=20
+2026-02-19 06:58:25 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 06:58:25 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 06:58:25 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses/2
+2026-02-19 06:58:25 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses/2", parameters={}
+2026-02-19 06:58:25 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getCourseById(Integer)
+2026-02-19 06:58:25 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.course_id,
+        c1_0.code,
+        c1_0.created_at,
+        c1_0.credits,
+        c1_0.department,
+        c1_0.description,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.semester,
+        s1_0.stat_id,
+        s1_0.avg_rating_clarity,
+        s1_0.avg_rating_material,
+        s1_0.avg_rating_overall,
+        s1_0.avg_rating_pedagogy,
+        s1_0.course_id,
+        s1_0.last_updated,
+        s1_0.total_reviews,
+        c1_0.teacher_id,
+        c1_0.type,
+        c1_0.updated_at 
+    from
+        courses c1_0 
+    left join
+        course_statistics s1_0 
+            on c1_0.course_id=s1_0.course_id 
+    where
+        c1_0.course_id=?
+2026-02-19 06:58:25 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.user_id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.is_active,
+        u1_0.password_hash,
+        u1_0.role,
+        u1_0.updated_at,
+        u1_0.username 
+    from
+        users u1_0 
+    where
+        u1_0.user_id=?
+2026-02-19 06:58:25 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /reviews/course/2?page=0&size=20
+2026-02-19 06:58:25 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 06:58:25 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/reviews/course/2?page=0&size=20", parameters={masked}
+2026-02-19 06:58:25 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.ReviewController#getReviewsByCourse(Integer, Integer, Integer)
+2026-02-19 06:58:25 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 06:58:25 [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [CourseDTO(courseId=2, name=Base de Donn‚es, code=INFO302, description=Introduction aux systŠmes de g (truncated)...]
+2026-02-19 06:58:25 [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 06:58:25 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        r 
+    FROM
+        Review r 
+    WHERE
+        r.course.courseId = :courseId 
+        AND r.moderationStatus = :status 
+    order by
+        r.createdAt desc */ select
+            r1_0.review_id,
+            r1_0.anonymous,
+            r1_0.comment,
+            r1_0.course_id,
+            r1_0.created_at,
+            r1_0.is_moderated,
+            r1_0.moderation_status,
+            r1_0.rating_clarity,
+            r1_0.rating_material,
+            r1_0.rating_overall,
+            r1_0.rating_pedagogy,
+            r1_0.updated_at,
+            r1_0.user_id 
+        from
+            reviews r1_0 
+        where
+            r1_0.course_id=? 
+            and r1_0.moderation_status=? 
+        order by
+            r1_0.created_at desc 
+        fetch
+            first ? rows only
+2026-02-19 06:58:25 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 06:58:25 [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [Page 1 of 0 containing UNKNOWN instances]
+2026-02-19 06:58:25 [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 06:58:25 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /reviews/course/2?page=0&size=20
+2026-02-19 06:58:25 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 06:58:25 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /reviews/course/2?page=0&size=20
+2026-02-19 06:58:25 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/reviews/course/2?page=0&size=20", parameters={masked}
+2026-02-19 06:58:25 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.ReviewController#getReviewsByCourse(Integer, Integer, Integer)
+2026-02-19 06:58:25 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        r 
+    FROM
+        Review r 
+    WHERE
+        r.course.courseId = :courseId 
+        AND r.moderationStatus = :status 
+    order by
+        r.createdAt desc */ select
+            r1_0.review_id,
+            r1_0.anonymous,
+            r1_0.comment,
+            r1_0.course_id,
+            r1_0.created_at,
+            r1_0.is_moderated,
+            r1_0.moderation_status,
+            r1_0.rating_clarity,
+            r1_0.rating_material,
+            r1_0.rating_overall,
+            r1_0.rating_pedagogy,
+            r1_0.updated_at,
+            r1_0.user_id 
+        from
+            reviews r1_0 
+        where
+            r1_0.course_id=? 
+            and r1_0.moderation_status=? 
+        order by
+            r1_0.created_at desc 
+        fetch
+            first ? rows only
+2026-02-19 06:58:25 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 06:58:25 [http-nio-8080-exec-2] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [Page 1 of 0 containing UNKNOWN instances]
+2026-02-19 06:58:25 [http-nio-8080-exec-2] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 06:58:25 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /courses/2/statistics
+2026-02-19 06:58:25 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses/2/statistics
+2026-02-19 06:58:25 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 06:58:25 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses/2/statistics
+2026-02-19 06:58:25 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses/2/statistics", parameters={}
+2026-02-19 06:58:25 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getCourseStatistics(Integer)
+2026-02-19 06:58:25 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.course_id,
+        c1_0.code,
+        c1_0.created_at,
+        c1_0.credits,
+        c1_0.department,
+        c1_0.description,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.semester,
+        s1_0.stat_id,
+        s1_0.avg_rating_clarity,
+        s1_0.avg_rating_material,
+        s1_0.avg_rating_overall,
+        s1_0.avg_rating_pedagogy,
+        s1_0.course_id,
+        s1_0.last_updated,
+        s1_0.total_reviews,
+        c1_0.teacher_id,
+        c1_0.type,
+        c1_0.updated_at 
+    from
+        courses c1_0 
+    left join
+        course_statistics s1_0 
+            on c1_0.course_id=s1_0.course_id 
+    where
+        c1_0.course_id=?
+2026-02-19 06:58:25 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 06:58:25 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 06:58:25 [http-nio-8080-exec-10] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [CourseStatisticsDTO(courseId=2, courseName=Base de Donn‚es, avgRatingOverall=null, avgRatingClarity= (truncated)...]
+2026-02-19 06:58:25 [http-nio-8080-exec-10] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2026-02-19 06:58:25 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /courses/2/statistics
+2026-02-19 06:58:25 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.username = :username */ select
+            u1_0.user_id,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.full_name,
+            u1_0.is_active,
+            u1_0.password_hash,
+            u1_0.role,
+            u1_0.updated_at,
+            u1_0.username 
+        from
+            users u1_0 
+        where
+            u1_0.username=?
+2026-02-19 06:58:25 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /courses/2/statistics
+2026-02-19 06:58:25 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - GET "/api/courses/2/statistics", parameters={}
+2026-02-19 06:58:25 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.uaz.backend.controller.CourseController#getCourseStatistics(Integer)
+2026-02-19 06:58:25 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.course_id,
+        c1_0.code,
+        c1_0.created_at,
+        c1_0.credits,
+        c1_0.department,
+        c1_0.description,
+        c1_0.is_active,
+        c1_0.name,
+        c1_0.semester,
+        s1_0.stat_id,
+        s1_0.avg_rating_clarity,
+        s1_0.avg_rating_material,
+        s1_0.avg_rating_overall,
+        s1_0.avg_rating_pedagogy,
+        s1_0.course_id,
+        s1_0.last_updated,
+        s1_0.total_reviews,
+        c1_0.teacher_id,
+        c1_0.type,
+        c1_0.updated_at 
+    from
+        courses c1_0 
+    left join
+        course_statistics s1_0 
+            on c1_0.course_id=s1_0.course_id 
+    where
+        c1_0.course_id=?
+2026-02-19 06:58:25 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        c 
+    FROM
+        CourseStatistics c 
+    WHERE
+        c.course.courseId = :courseId */ select
+            cs1_0.stat_id,
+            cs1_0.avg_rating_clarity,
+            cs1_0.avg_rating_material,
+            cs1_0.avg_rating_overall,
+            cs1_0.avg_rating_pedagogy,
+            cs1_0.course_id,
+            cs1_0.last_updated,
+            cs1_0.total_reviews 
+        from
+            course_statistics cs1_0 
+        where
+            cs1_0.course_id=?
+2026-02-19 06:58:25 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Using 'application/json', given [application/json, text/plain, */*] and supported [application/json, application/*+json]
+2026-02-19 06:58:25 [http-nio-8080-exec-6] DEBUG o.s.w.s.m.m.a.HttpEntityMethodProcessor - Writing [CourseStatisticsDTO(courseId=2, courseName=Base de Donn‚es, avgRatingOverall=null, avgRatingClarity= (truncated)...]
+2026-02-19 06:58:25 [http-nio-8080-exec-6] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
