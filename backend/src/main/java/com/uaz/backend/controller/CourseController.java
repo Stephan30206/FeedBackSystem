@@ -36,6 +36,16 @@ public class CourseController {
     }
 
     /**
+     * Obtenir les cours filtrés pour un utilisateur
+     * GET /api/courses/user/{userId}
+     */
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<CourseDTO>> getCoursesForUser(@PathVariable Integer userId) {
+        List<CourseDTO> courses = courseService.getCoursesForUser(userId);
+        return ResponseEntity.ok(courses);
+    }
+
+    /**
      * Obtenir un cours par son ID
      * GET /api/courses/{id}
      */

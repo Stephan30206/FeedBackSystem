@@ -19,5 +19,6 @@ public class LoginResponse {
     private String email;
     private String fullName;
     private String role;
+    private String department;
     private String message;
 }

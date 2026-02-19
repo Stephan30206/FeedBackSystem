@@ -261,4 +261,30 @@ public class UserController {
         List<User> users = userService.searchUsers(q);
         return ResponseEntity.ok(users);
     }
+
+    /**
+     * Mettre à jour le rôle d'un utilisateur (Admin uniquement)
+     * PATCH /api/users/{id}/role
+     */
+    @PatchMapping("/{id}/role")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> updateUserRole(
+            @PathVariable Integer id,
+            @RequestBody Map<String, String> body) {
+        try {
+            String roleStr = body.get("role");
+            User.UserRole role = User.UserRole.fromValue(roleStr);
+
+            User user = userService.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+            user.setRole(role);
+            userService.saveUser(user);
+
+            return ResponseEntity.ok(new MessageResponse("Rôle mis à jour avec succès"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new MessageResponse("Erreur lors de la mise à jour: " + e.getMessage()));
+        }
+    }
 }

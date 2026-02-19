@@ -39,6 +39,35 @@ public class CourseService {
     }
 
     /**
+     * Obtenir tous les cours actifs pour un utilisateur spécifique
+     * (Filtré par département et inclut les services globaux)
+     */
+    public List<CourseDTO> getCoursesForUser(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        // Si l'utilisateur est admin, il voit tout
+        if (user.isAdmin()) {
+            return getAllActiveCourses();
+        }
+
+        // Si l'utilisateur a un département, on filtre
+        if (user.getDepartment() != null && !user.getDepartment().isEmpty()) {
+            return courseRepository.findByDepartmentOrGlobal(user.getDepartment())
+                    .stream()
+                    .map(this::convertToDTO)
+                    .collect(Collectors.toList());
+        }
+
+        // Sinon (par exemple enseignant sans département ou étudiant non assigné),
+        // on retourne au moins les services globaux
+        return courseRepository.findByTypeAndIsActiveTrue(Course.CourseType.SERVICE)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Obtenir un cours par ID
      */
     public CourseDTO getCourseById(Integer id) {

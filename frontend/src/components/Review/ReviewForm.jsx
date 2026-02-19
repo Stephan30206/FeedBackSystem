@@ -4,12 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import courseService from '../../services/courseService';
 import reviewService from '../../services/reviewService';
 import toast from 'react-hot-toast';
-import { ArrowLeft, Star, Send, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Star, Send, CheckCircle2, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
-/**
- * Composant ReviewForm
- * Formulaire pour laisser un avis sur un cours
- */
 const ReviewForm = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -37,33 +33,16 @@ const ReviewForm = () => {
             const response = await courseService.getCourseById(id);
             setCourse(response.data);
         } catch (error) {
-            console.error('Erreur lors du chargement du cours:', error);
+            console.error('Error loading course:', error);
             toast.error('Erreur lors du chargement du cours');
-            navigate('/courses');
+            navigate('/app/courses');
         } finally {
             setLoading(false);
         }
     };
 
     const handleRatingChange = (field, value) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: value
-        }));
-    };
-
-    const handleCommentChange = (e) => {
-        setFormData(prev => ({
-            ...prev,
-            comment: e.target.value
-        }));
-    };
-
-    const handleAnonymousChange = (e) => {
-        setFormData(prev => ({
-            ...prev,
-            anonymous: e.target.checked
-        }));
+        setFormData(prev => ({ ...prev, [field]: value }));
     };
 
     const validateForm = () => {
@@ -71,25 +50,19 @@ const ReviewForm = () => {
             toast.error('Veuillez donner une note globale');
             return false;
         }
-
         if (formData.comment.trim().length < 10) {
             toast.error('Le commentaire doit contenir au moins 10 caractères');
             return false;
         }
-
         return true;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (!validateForm()) {
-            return;
-        }
+        if (!validateForm()) return;
 
         try {
             setSubmitting(true);
-
             const reviewData = {
                 courseId: parseInt(id),
                 ratingOverall: formData.ratingOverall,
@@ -99,16 +72,11 @@ const ReviewForm = () => {
                 comment: formData.comment.trim(),
                 anonymous: formData.anonymous
             };
-
             await reviewService.createReview(reviewData);
-
             toast.success('Avis envoyé avec succès! Il sera visible après modération.');
-            navigate(`/courses/${id}`);
+            navigate(`/app/courses/${id}`);
         } catch (error) {
-            const errorMessage = error.response?.data?.message ||
-                error.response?.data?.error ||
-                'Erreur lors de l\'envoi de l\'avis';
-            toast.error(errorMessage);
+            toast.error(error.response?.data?.message || 'Erreur lors de l\'envoi de l\'avis');
         } finally {
             setSubmitting(false);
         }
@@ -116,34 +84,37 @@ const ReviewForm = () => {
 
     const StarRating = ({ label, value, onChange, required = false }) => {
         const [hover, setHover] = useState(0);
-
         return (
-            <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                    {label} {required && <span className="text-red-500">*</span>}
-                </label>
-                <div className="flex items-center space-x-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                            key={star}
-                            type="button"
-                            onClick={() => onChange(star)}
-                            onMouseEnter={() => setHover(star)}
-                            onMouseLeave={() => setHover(0)}
-                            className="focus:outline-none transition-transform hover:scale-110"
-                        >
-                            <Star
-                                className={`w-8 h-8 ${
-                                    star <= (hover || value)
-                                        ? 'fill-yellow-400 text-yellow-400'
-                                        : 'text-gray-300'
-                                }`}
-                            />
-                        </button>
-                    ))}
-                    <span className="ml-2 text-sm text-gray-600">
-            {value > 0 ? `${value}/5` : 'Non noté'}
-          </span>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 border-b border-slate-100 last:border-0">
+                <div>
+                    <label className="text-sm font-bold text-slate-700 block mb-1">
+                        {label} {required && <span className="text-red-500">*</span>}
+                    </label>
+                    <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Note de 1 à 5</p>
+                </div>
+                <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 bg-slate-50 p-2 rounded-2xl border border-slate-100">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                                key={star}
+                                type="button"
+                                onClick={() => onChange(star)}
+                                onMouseEnter={() => setHover(star)}
+                                onMouseLeave={() => setHover(0)}
+                                className="focus:outline-none transition-transform hover:scale-125 p-1"
+                            >
+                                <Star
+                                    size={24}
+                                    className={`${
+                                        star <= (hover || value)
+                                            ? 'fill-yellow-400 text-yellow-400'
+                                            : 'text-slate-200'
+                                    } transition-colors`}
+                                />
+                            </button>
+                        ))}
+                    </div>
+                    {value > 0 && <span className="text-sm font-black text-slate-900 w-8 text-center">{value}</span>}
                 </div>
             </div>
         );
@@ -151,167 +122,150 @@ const ReviewForm = () => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Chargement...</p>
-                </div>
+            <div className="flex flex-col items-center justify-center min-h-[60vh]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#007AB8] mb-4"></div>
+                <p className="text-slate-500 font-medium">Chargement du formulaire...</p>
             </div>
         );
     }
 
-    if (!course) {
-        return null;
-    }
-
     return (
-        <div className="max-w-3xl mx-auto space-y-6">
-            {/* Bouton retour */}
+        <div className="max-w-4xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {/* Back Button */}
             <button
-                onClick={() => navigate(`/courses/${id}`)}
-                className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+                onClick={() => navigate(`/app/courses/${id}`)}
+                className="flex items-center gap-2 text-slate-400 hover:text-slate-900 font-bold text-sm transition-all group"
             >
-                <ArrowLeft className="w-5 h-5 mr-2" />
-                Retour au cours
+                <div className="p-2 bg-white rounded-xl border border-slate-100 group-hover:bg-slate-50 transition-colors">
+                    <ArrowLeft size={18} />
+                </div>
+                Annuler et retourner au cours
             </button>
 
-            {/* En-tête */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                    Évaluer le cours
-                </h1>
-                <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
-                    <h2 className="font-semibold text-gray-900 mb-1">{course.name}</h2>
-                    <p className="text-sm text-gray-600">{course.code}</p>
-                    {course.teacherName && (
-                        <p className="text-sm text-gray-600">Enseignant: {course.teacherName}</p>
-                    )}
+            {/* Header Card */}
+            <div className="bg-slate-900 rounded-[40px] p-10 text-white flex flex-col md:flex-row justify-between items-center gap-10 shadow-xl shadow-blue-900/10">
+                <div className="space-y-4 text-center md:text-left">
+                    <div className="flex justify-center md:justify-start">
+                         <span className="px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-[#007AB8] text-white">
+                            {course.type === 'service' ? 'Service' : 'Cours'}
+                        </span>
+                    </div>
+                    <h1 className="text-3xl md:text-4xl font-black tracking-tight">{course.name}</h1>
+                    <p className="text-white/60 font-medium">{course.code} • {course.teacherName || 'Responsable'}</p>
+                </div>
+                <div className="w-20 h-20 bg-white/10 rounded-3xl flex items-center justify-center text-white/40 flex-shrink-0">
+                    <Star size={40} className="fill-white/10" />
                 </div>
             </div>
 
-            {/* Formulaire */}
-            <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 space-y-6">
-                {/* Note globale (obligatoire) */}
-                <StarRating
-                    label="Note globale"
-                    value={formData.ratingOverall}
-                    onChange={(value) => handleRatingChange('ratingOverall', value)}
-                    required
-                />
+            {/* Form Section */}
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-10 pb-20">
+                
+                {/* Left Column: Ratings */}
+                <div className="lg:col-span-2 space-y-8">
+                    <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm space-y-8">
+                        <div>
+                            <h2 className="text-2xl font-bold text-slate-900 mb-2">Évaluation</h2>
+                            <p className="text-slate-400 font-medium">Attribuez des notes selon les critères suivants</p>
+                        </div>
 
-                <div className="border-t pt-6">
-                    <p className="text-sm font-medium text-gray-700 mb-4">
-                        Critères détaillés (optionnel)
-                    </p>
+                        <div className="space-y-2">
+                            <StarRating
+                                label="Note globale"
+                                value={formData.ratingOverall}
+                                onChange={(value) => handleRatingChange('ratingOverall', value)}
+                                required
+                            />
+                            <StarRating
+                                label="Clarté des explications"
+                                value={formData.ratingClarity}
+                                onChange={(value) => handleRatingChange('ratingClarity', value)}
+                            />
+                            <StarRating
+                                label="Matériel pédagogique"
+                                value={formData.ratingMaterial}
+                                onChange={(value) => handleRatingChange('ratingMaterial', value)}
+                            />
+                            <StarRating
+                                label="Approche pédagogique"
+                                value={formData.ratingPedagogy}
+                                onChange={(value) => handleRatingChange('ratingPedagogy', value)}
+                            />
+                        </div>
 
-                    <div className="space-y-4">
-                        {/* Clarté */}
-                        <StarRating
-                            label="Clarté des explications"
-                            value={formData.ratingClarity}
-                            onChange={(value) => handleRatingChange('ratingClarity', value)}
-                        />
-
-                        {/* Matériel */}
-                        <StarRating
-                            label="Qualité du matériel pédagogique"
-                            value={formData.ratingMaterial}
-                            onChange={(value) => handleRatingChange('ratingMaterial', value)}
-                        />
-
-                        {/* Pédagogie */}
-                        <StarRating
-                            label="Approche pédagogique"
-                            value={formData.ratingPedagogy}
-                            onChange={(value) => handleRatingChange('ratingPedagogy', value)}
-                        />
+                        <div className="space-y-4 pt-6">
+                            <div className="flex justify-between items-end">
+                                <label className="text-sm font-bold text-slate-700 block">Votre commentaire <span className="text-red-500">*</span></label>
+                                <span className={`text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full ${
+                                    formData.comment.length >= 10 ? 'bg-green-50 text-green-600' : 'bg-slate-50 text-slate-400'
+                                }`}>
+                                    {formData.comment.length} / 10 min
+                                </span>
+                            </div>
+                            <textarea
+                                value={formData.comment}
+                                onChange={(e) => setFormData(prev => ({ ...prev, comment: e.target.value }))}
+                                rows={6}
+                                placeholder="Partagez votre expérience détaillée avec ce cours..."
+                                className="w-full px-6 py-5 bg-slate-50 border border-slate-100 rounded-3xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-[#007AB8] transition-all resize-none italic"
+                                required
+                            />
+                        </div>
                     </div>
                 </div>
 
-                {/* Commentaire */}
-                <div className="border-t pt-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Votre commentaire <span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                        value={formData.comment}
-                        onChange={handleCommentChange}
-                        rows={6}
-                        placeholder="Partagez votre expérience avec ce cours. Soyez constructif et détaillé (minimum 10 caractères)..."
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                        required
-                    />
-                    <p className="mt-1 text-sm text-gray-500">
-                        {formData.comment.length} caractères
-                    </p>
-                </div>
+                {/* Right Column: Options & Submit */}
+                <div className="space-y-8">
+                    {/* Settings Card */}
+                    <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm space-y-6">
+                        <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                             Paramètres
+                        </h3>
+                        
+                        <label className="flex items-start gap-4 p-4 rounded-2xl bg-slate-50/50 border border-slate-50 cursor-pointer group hover:bg-slate-50 transition-colors">
+                            <div className="relative pt-1">
+                                <input
+                                    type="checkbox"
+                                    checked={formData.anonymous}
+                                    onChange={(e) => setFormData(prev => ({ ...prev, anonymous: e.target.checked }))}
+                                    className="peer sr-only"
+                                />
+                                <div className="w-10 h-6 bg-slate-200 rounded-full peer-checked:bg-[#007AB8] transition-colors"></div>
+                                <div className="absolute top-2 left-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-4 shadow-sm"></div>
+                            </div>
+                            <div>
+                                <span className="text-sm font-bold text-slate-900 block mb-1">Anonymat</span>
+                                <p className="text-xs text-slate-400">Masquer votre identité publiquement</p>
+                            </div>
+                        </label>
 
-                {/* Option anonyme */}
-                <div className="border-t pt-6">
-                    <label className="flex items-center space-x-3 cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={formData.anonymous}
-                            onChange={handleAnonymousChange}
-                            className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                        />
-                        <div>
-              <span className="text-sm font-medium text-gray-900">
-                Publier cet avis de manière anonyme
-              </span>
-                            <p className="text-xs text-gray-500">
-                                Votre nom ne sera pas visible publiquement
+                        <div className="p-5 bg-blue-50/50 rounded-2xl border border-blue-100 flex gap-3">
+                            <AlertCircle size={18} className="text-[#007AB8] flex-shrink-0 mt-0.5" />
+                            <p className="text-[11px] text-blue-700 leading-relaxed font-medium">
+                                Votre avis sera modéré avant d'être publié. Assurez-vous d'être constructif.
                             </p>
                         </div>
-                    </label>
-                </div>
-
-                {/* Informations importantes */}
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                    <div className="flex items-start">
-                        <CheckCircle className="w-5 h-5 text-yellow-600 mt-0.5 mr-3 flex-shrink-0" />
-                        <div className="text-sm text-yellow-800">
-                            <p className="font-medium mb-1">Avant de soumettre:</p>
-                            <ul className="list-disc list-inside space-y-1 text-xs">
-                                <li>Votre avis sera soumis à modération avant publication</li>
-                                <li>Soyez constructif et respectueux dans vos commentaires</li>
-                                <li>Vous ne pourrez évaluer ce cours qu'une seule fois</li>
-                                <li>Votre avis aidera les autres étudiants et l'enseignant</li>
-                            </ul>
-                        </div>
                     </div>
-                </div>
 
-                {/* Boutons */}
-                <div className="flex items-center justify-end space-x-4 pt-4">
-                    <button
-                        type="button"
-                        onClick={() => navigate(`/courses/${id}`)}
-                        className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
-                        disabled={submitting}
-                    >
-                        Annuler
-                    </button>
-                    <button
-                        type="submit"
-                        disabled={submitting || formData.ratingOverall === 0}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors flex items-center"
-                    >
-                        {submitting ? (
-                            <>
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Envoi en cours...
-                            </>
-                        ) : (
-                            <>
-                                <Send className="w-5 h-5 mr-2" />
-                                Soumettre l'avis
-                            </>
-                        )}
-                    </button>
+                    {/* Submit Card */}
+                    <div className="bg-[#007AB8] p-8 rounded-[32px] text-white space-y-6 shadow-xl shadow-blue-900/10">
+                        <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center">
+                            <Send size={28} />
+                        </div>
+                        <div>
+                            <h3 className="text-2xl font-bold mb-2">Prêt à soumettre ?</h3>
+                            <p className="text-white/70 text-sm leading-relaxed">
+                                Une fois envoyé, votre avis contribuera à l'excellence académique de l'UAZ.
+                            </p>
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={submitting || formData.ratingOverall === 0 || formData.comment.length < 10}
+                            className="w-full py-4 bg-white text-[#007AB8] rounded-2xl font-bold hover:bg-blue-50 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {submitting ? "Envoi..." : "Soumettre mon avis"}
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

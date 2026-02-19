@@ -6,6 +6,11 @@ class CourseService {
         return api.get('/courses');
     }
 
+    // Obtenir les cours filtrés pour l'utilisateur
+    getCoursesForUser(userId) {
+        return api.get(`/courses/user/${userId}`);
+    }
+
     // Obtenir un cours par ID
     getCourseById(id) {
         return api.get(`/courses/${id}`);

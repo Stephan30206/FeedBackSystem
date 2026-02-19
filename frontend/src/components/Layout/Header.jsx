@@ -1,15 +1,12 @@
-import { useNavigate } from 'react-router-dom';
-import { LogOut, User, Bell } from 'lucide-react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { LogOut, GraduationCap, ShieldCheck, Users, BookOpen, MessageSquare, BarChart2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 
-/**
- * Composant Header
- * Barre de navigation supérieure avec logo, notifications et profil utilisateur
- */
 const Header = () => {
     const navigate = useNavigate();
-    const { user, logout } = useAuth();
+    const location = useLocation();
+    const { user, logout, isAdmin } = useAuth();
 
     const handleLogout = () => {
         logout();
@@ -17,61 +14,70 @@ const Header = () => {
         navigate('/login');
     };
 
-    const getRoleBadge = (role) => {
-        const badges = {
-            STUDENT: { text: 'Étudiant', color: 'bg-blue-100 text-blue-800' },
-            TEACHER: { text: 'Enseignant', color: 'bg-green-100 text-green-800' },
-            ADMIN: { text: 'Admin', color: 'bg-purple-100 text-purple-800' },
-        };
-        return badges[role] || badges.STUDENT;
-    };
-
-    const badge = getRoleBadge(user?.role);
+    const navItems = [
+        { label: 'Administration', path: '/app/admin', icon: ShieldCheck, adminOnly: true },
+        { label: 'Utilisateurs', path: '/app/users', icon: Users, adminOnly: true },
+        { label: 'Cours', path: '/app/courses', icon: BookOpen },
+        { label: 'Avis', path: '/app/reviews', icon: MessageSquare },
+        { label: 'Statistiques', path: '/app/statistics', icon: BarChart2 },
+    ];
 
     return (
-        <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
-            <div className="flex items-center justify-between px-6 py-4">
-                {/* Logo et titre */}
-                <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <span className="text-white font-bold text-xl">U</span>
+        <header className="fixed top-0 left-0 right-0 bg-white border-b border-slate-200 z-50 backdrop-blur-md bg-white/90">
+            <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                {/* Logo and title */}
+                <Link to="/app/dashboard" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                    <div className="w-10 h-10 bg-[#007AB8] rounded-xl flex items-center justify-center shadow-md shadow-blue-100">
+                        <GraduationCap className="text-white w-6 h-6" />
                     </div>
-                    <div>
-                        <h1 className="text-xl font-bold text-gray-800">UAZ Feedback</h1>
-                        <p className="text-xs text-gray-500">Système de feedback étudiant</p>
-                    </div>
-                </div>
+                    <h1 className="text-xl font-bold text-slate-900 tracking-tight">UAZ Feedback</h1>
+                </Link>
 
-                {/* Actions utilisateur */}
-                <div className="flex items-center space-x-4">
-                    {/* Notifications */}
-                    <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                        <Bell className="w-6 h-6" />
-                        <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                    </button>
+                {/* Main Navigation */}
+                <nav className="hidden lg:flex items-center gap-2">
+                    {navItems.map((item) => (
+                        (!item.adminOnly || isAdmin) && (
+                            <Link
+                                key={item.path}
+                                to={item.path}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                                    location.pathname.startsWith(item.path)
+                                        ? 'bg-blue-50 text-[#007AB8] shadow-sm shadow-blue-50/50'
+                                        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+                                }`}
+                            >
+                                <item.icon size={18} />
+                                <span>{item.label}</span>
+                            </Link>
+                        )
+                    ))}
+                </nav>
 
-                    {/* Profil utilisateur */}
-                    <div className="flex items-center space-x-3 border-l pl-4">
+                {/* User Profile and Logout */}
+                <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-3 pl-6 border-l border-slate-100">
                         <div className="text-right">
-                            <p className="text-sm font-medium text-gray-800">{user?.fullName || user?.username}</p>
-                            <span className={`text-xs px-2 py-0.5 rounded ${badge.color}`}>
-                {badge.text}
-              </span>
+                            <p className="text-sm font-bold text-slate-900">{user?.fullName || user?.username}</p>
+                            <p className="text-[10px] font-bold tracking-widest uppercase text-slate-400">
+                                {user?.role === 'ADMIN' ? 'Administrateur' : user?.role === 'TEACHER' ? 'Enseignant' : 'Étudiant'}
+                            </p>
                         </div>
-
-                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                            <User className="w-6 h-6 text-gray-600" />
+                        <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 font-bold border-2 border-white shadow-sm overflow-hidden">
+                           <img 
+                             src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.fullName || user?.username)}&background=f1f5f9&color=94a3b8`} 
+                             alt="Avatar" 
+                             className="w-full h-full object-cover"
+                           />
                         </div>
-
-                        {/* Bouton déconnexion */}
-                        <button
-                            onClick={handleLogout}
-                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                            title="Se déconnecter"
-                        >
-                            <LogOut className="w-5 h-5" />
-                        </button>
                     </div>
+
+                    <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-2 px-4 py-2 bg-slate-50 text-slate-600 hover:bg-red-50 hover:text-red-600 rounded-xl text-sm font-bold transition-all border border-slate-100"
+                    >
+                        <LogOut size={18} />
+                        <span className="hidden sm:inline">Déconnexion</span>
+                    </button>
                 </div>
             </div>
         </header>

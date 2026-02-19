@@ -34,4 +34,6 @@ public class RegisterRequest {
 
     @NotBlank(message = "Le rôle est obligatoire")
     private String role; // STUDENT, TEACHER, ADMIN
+
+    private String department;
 }

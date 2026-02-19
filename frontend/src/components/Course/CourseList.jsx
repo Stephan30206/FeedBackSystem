@@ -1,42 +1,41 @@
 import { useState, useEffect } from 'react';
-import { Search, Filter, BookOpen, Briefcase, X } from 'lucide-react';
+import { Search, Filter, BookOpen, Settings, X, ChevronDown } from 'lucide-react';
 import courseService from '../../services/courseService';
 import CourseCard from './CourseCard';
 import toast from 'react-hot-toast';
+import { useAuth } from '../../context/AuthContext';
 
-/**
- * Composant CourseList
- * Liste de tous les cours avec recherche et filtres
- */
 const CourseList = () => {
+    const { user } = useAuth();
     const [courses, setCourses] = useState([]);
     const [filteredCourses, setFilteredCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filters, setFilters] = useState({
-        type: 'all', // all, course, service
+        type: 'all', 
         department: 'all',
-        sortBy: 'name' // name, rating, reviews
+        sortBy: 'name' 
     });
     const [departments, setDepartments] = useState([]);
 
     useEffect(() => {
         loadCourses();
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         applyFilters();
     }, [courses, searchTerm, filters]);
 
     const loadCourses = async () => {
+        if (!user) return;
         try {
             setLoading(true);
-            const response = await courseService.getAllCourses();
+            // We use getCoursesForUser to respect domain visibility rules
+            const response = await courseService.getCoursesForUser(user.userId);
             const coursesData = response.data;
 
             setCourses(coursesData);
 
-            // Extraire les départements uniques
             const uniqueDepartments = [...new Set(
                 coursesData
                     .filter(c => c.department)
@@ -55,7 +54,6 @@ const CourseList = () => {
     const applyFilters = () => {
         let filtered = [...courses];
 
-        // Filtrer par recherche
         if (searchTerm) {
             const term = searchTerm.toLowerCase();
             filtered = filtered.filter(course =>
@@ -66,17 +64,14 @@ const CourseList = () => {
             );
         }
 
-        // Filtrer par type
         if (filters.type !== 'all') {
             filtered = filtered.filter(course => course.type === filters.type);
         }
 
-        // Filtrer par département
         if (filters.department !== 'all') {
             filtered = filtered.filter(course => course.department === filters.department);
         }
 
-        // Trier
         filtered.sort((a, b) => {
             switch (filters.sortBy) {
                 case 'rating':
@@ -108,165 +103,137 @@ const CourseList = () => {
         });
     };
 
-    const hasActiveFilters = searchTerm || filters.type !== 'all' || filters.department !== 'all';
-
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Chargement des cours...</p>
-                </div>
+            <div className="flex flex-col items-center justify-center min-h-[60vh]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#007AB8] mb-4"></div>
+                <p className="text-slate-500 font-medium">Chargement du catalogue...</p>
             </div>
         );
     }
 
     return (
-        <div className="space-y-6">
-            {/* En-tête */}
-            <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Catalogue des Cours</h1>
-                <p className="text-gray-600">
-                    Découvrez {courses.length} cours et services disponibles
-                </p>
+        <div className="space-y-10 animate-in fade-in duration-500">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h1 className="text-4xl font-bold text-slate-900 mb-2 tracking-tight">Catalogue des Cours</h1>
+                    <p className="text-slate-500 font-medium flex items-center gap-2">
+                        <BookOpen size={18} className="text-[#007AB8]" />
+                        Découvrez {courses.length} cours et services disponibles dans votre domaine
+                    </p>
+                </div>
+
+                <div className="flex items-center gap-3">
+                   <div className="px-4 py-2 bg-blue-50 text-[#007AB8] rounded-xl text-sm font-bold border border-blue-100 flex items-center gap-2">
+                     <Settings size={16} /> {courses.filter(c => c.type === 'service').length} Services
+                   </div>
+                   <div className="px-4 py-2 bg-slate-100 text-slate-600 rounded-xl text-sm font-bold border border-slate-200 flex items-center gap-2">
+                     <BookOpen size={16} /> {courses.filter(c => c.type === 'course').length} Cours
+                   </div>
+                </div>
             </div>
 
-            {/* Barre de recherche et filtres */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-                {/* Recherche */}
-                <div className="mb-4">
-                    <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <Search className="h-5 w-5 text-gray-400" />
+            {/* Search and Filters */}
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 space-y-6">
+                <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#007AB8] transition-colors">
+                        <Search size={20} />
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Rechercher un cours, un code ou un enseignant..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-14 pr-12 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-[#007AB8] transition-all"
+                    />
+                    {searchTerm && (
+                        <button
+                            onClick={() => setSearchTerm('')}
+                            className="absolute inset-y-0 right-0 pr-5 flex items-center text-slate-400 hover:text-slate-600"
+                        >
+                            <X size={20} />
+                        </button>
+                    )}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Type Filter */}
+                    <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Type</label>
+                        <div className="relative">
+                            <select
+                                value={filters.type}
+                                onChange={(e) => handleFilterChange('type', e.target.value)}
+                                className="w-full appearance-none px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-slate-700 font-bold focus:outline-none focus:ring-4 focus:ring-blue-50"
+                            >
+                                <option value="all">Tous les types</option>
+                                <option value="course">Cours uniquement</option>
+                                <option value="service">Services uniquement</option>
+                            </select>
+                            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
                         </div>
-                        <input
-                            type="text"
-                            placeholder="Rechercher un cours, code, enseignant..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                        {searchTerm && (
-                            <button
-                                onClick={() => setSearchTerm('')}
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    </div>
+
+                    {/* Department Filter */}
+                    <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Département</label>
+                        <div className="relative">
+                            <select
+                                value={filters.department}
+                                onChange={(e) => handleFilterChange('department', e.target.value)}
+                                className="w-full appearance-none px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-slate-700 font-bold focus:outline-none focus:ring-4 focus:ring-blue-50"
                             >
-                                <X className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                            </button>
-                        )}
-                    </div>
-                </div>
-
-                {/* Filtres */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    {/* Type */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Type
-                        </label>
-                        <select
-                            value={filters.type}
-                            onChange={(e) => handleFilterChange('type', e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="all">Tous</option>
-                            <option value="course">Cours uniquement</option>
-                            <option value="service">Services uniquement</option>
-                        </select>
+                                <option value="all">Tous les départements</option>
+                                {departments.map(dept => (
+                                    <option key={dept} value={dept}>{dept}</option>
+                                ))}
+                            </select>
+                            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
+                        </div>
                     </div>
 
-                    {/* Département */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Département
-                        </label>
-                        <select
-                            value={filters.department}
-                            onChange={(e) => handleFilterChange('department', e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="all">Tous les départements</option>
-                            {departments.map(dept => (
-                                <option key={dept} value={dept}>{dept}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Tri */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Trier par
-                        </label>
-                        <select
-                            value={filters.sortBy}
-                            onChange={(e) => handleFilterChange('sortBy', e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="name">Nom (A-Z)</option>
-                            <option value="rating">Meilleure note</option>
-                            <option value="reviews">Plus d'avis</option>
-                        </select>
-                    </div>
-
-                    {/* Bouton reset */}
-                    <div className="flex items-end">
-                        {hasActiveFilters && (
-                            <button
-                                onClick={clearFilters}
-                                className="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors flex items-center justify-center"
+                    {/* Sort Filter */}
+                    <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Trier par</label>
+                        <div className="relative">
+                            <select
+                                value={filters.sortBy}
+                                onChange={(e) => handleFilterChange('sortBy', e.target.value)}
+                                className="w-full appearance-none px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-slate-700 font-bold focus:outline-none focus:ring-4 focus:ring-blue-50"
                             >
-                                <X className="w-4 h-4 mr-2" />
-                                Réinitialiser
-                            </button>
-                        )}
+                                <option value="name">Nom (A-Z)</option>
+                                <option value="rating">Meilleure note</option>
+                                <option value="reviews">Plus d'avis</option>
+                            </select>
+                            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
+                        </div>
                     </div>
-                </div>
-
-                {/* Statistiques de filtrage */}
-                <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
-                    <div className="flex items-center space-x-4">
-            <span className="flex items-center">
-              <BookOpen className="w-4 h-4 mr-1" />
-                {filteredCourses.filter(c => c.type === 'course').length} cours
-            </span>
-                        <span className="flex items-center">
-              <Briefcase className="w-4 h-4 mr-1" />
-                            {filteredCourses.filter(c => c.type === 'service').length} services
-            </span>
-                    </div>
-                    <span className="font-medium">
-            {filteredCourses.length} résultat{filteredCourses.length > 1 ? 's' : ''}
-          </span>
                 </div>
             </div>
 
-            {/* Liste des cours */}
+            {/* Results Grid */}
             {filteredCourses.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredCourses.map((course) => (
                         <CourseCard key={course.courseId} course={course} />
                     ))}
                 </div>
             ) : (
-                <div className="bg-white rounded-lg shadow-md p-12 text-center">
-                    <Filter className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                        Aucun cours trouvé
-                    </h3>
-                    <p className="text-gray-600 mb-4">
-                        {hasActiveFilters
-                            ? "Essayez de modifier vos critères de recherche"
-                            : "Il n'y a pas encore de cours disponibles"
-                        }
+                <div className="py-24 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center px-6">
+                    <div className="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center text-slate-300 mb-6">
+                        <Filter size={40} />
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-900 mb-2">Aucun cours trouvé</h3>
+                    <p className="text-slate-500 max-w-sm mx-auto mb-8">
+                        Nous n'avons trouvé aucun cours correspondant à vos critères de recherche dans votre domaine.
                     </p>
-                    {hasActiveFilters && (
-                        <button
-                            onClick={clearFilters}
-                            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                        >
-                            Réinitialiser les filtres
-                        </button>
-                    )}
+                    <button
+                        onClick={clearFilters}
+                        className="px-8 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-200"
+                    >
+                        Réinitialiser les filtres
+                    </button>
                 </div>
             )}
         </div>

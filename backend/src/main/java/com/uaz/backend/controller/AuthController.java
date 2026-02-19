@@ -63,6 +63,7 @@ public class AuthController {
                     .email(user.getEmail())
                     .fullName(user.getFullName())
                     .role(user.getRole().name())
+                    .department(user.getDepartment())
                     .message("Connexion réussie")
                     .build();
 
@@ -155,6 +156,7 @@ public class AuthController {
                             .email(user.getEmail())
                             .fullName(user.getFullName())
                             .role(user.getRole().name())
+                            .department(user.getDepartment())
                             .message("Token valide")
                             .build());
                 }
@@ -204,6 +206,7 @@ public class AuthController {
                             .email(user.getEmail())
                             .fullName(user.getFullName())
                             .role(user.getRole().name())
+                            .department(user.getDepartment())
                             .message("Token rafraîchi avec succès")
                             .build());
                 }

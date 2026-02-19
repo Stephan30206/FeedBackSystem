@@ -5,307 +5,198 @@ import courseService from '../../services/courseService';
 import reviewService from '../../services/reviewService';
 import toast from 'react-hot-toast';
 import {
-    BookOpen,
     MessageSquare,
-    TrendingUp,
+    BookOpen,
     Users,
+    TrendingUp,
     Star,
     Award,
-    Clock,
-    ArrowRight
+    Settings,
+    ChevronRight,
+    Search
 } from 'lucide-react';
-import CourseCard from '../Course/CourseCard';
 
-/**
- * Composant Dashboard
- * Page d'accueil principale après connexion
- * Affiche des statistiques et informations selon le rôle
- */
 const Dashboard = () => {
     const navigate = useNavigate();
-    const { user, isStudent, isTeacher, isAdmin } = useAuth();
+    const { user, isStudent, isAdmin } = useAuth();
     const [loading, setLoading] = useState(true);
+    const [courses, setCourses] = useState([]);
+    const [myReviewsCount, setMyReviewsCount] = useState(0);
     const [stats, setStats] = useState({
-        totalCourses: 0,
-        totalReviews: 0,
-        averageRating: 0,
-        recentCourses: []
+        avisSoumis: 0,
+        coursServices: 0,
+        mesAvis: 0,
+        noteMoyenne: 0
     });
 
     useEffect(() => {
         loadDashboardData();
-    }, []);
+    }, [user]);
 
     const loadDashboardData = async () => {
+        if (!user) return;
         try {
             setLoading(true);
+            
+            // 1. Get filtered courses for user
+            const coursesRes = await courseService.getCoursesForUser(user.userId);
+            const userCourses = coursesRes.data;
+            setCourses(userCourses);
 
-            // Charger les cours récents
-            const coursesResponse = await courseService.getAllCourses();
-            const courses = coursesResponse.data;
+            // 2. Get user's own reviews
+            let userReviews = [];
+            try {
+                const reviewsRes = await reviewService.getMyReviews();
+                userReviews = reviewsRes.data;
+                setMyReviewsCount(userReviews.length);
+            } catch (e) {
+                console.error("Error loading user reviews", e);
+            }
 
-            // Calculer les statistiques
-            const totalCourses = courses.length;
-            const recentCourses = courses.slice(0, 3);
-
-            // Statistiques globales
-            let totalReviews = 0;
-            let totalRating = 0;
-            let ratedCourses = 0;
-
-            courses.forEach(course => {
-                if (course.totalReviews) {
-                    totalReviews += course.totalReviews;
-                }
-                if (course.avgRating) {
-                    totalRating += course.avgRating;
-                    ratedCourses++;
-                }
-            });
-
-            const averageRating = ratedCourses > 0 ? (totalRating / ratedCourses).toFixed(1) : 0;
+            // 3. Calculate Stats
+            const totalReviewsSystem = userCourses.reduce((acc, c) => acc + (c.totalReviews || 0), 0);
+            const avgRatingSystem = userCourses.length > 0 
+                ? (userCourses.reduce((acc, c) => acc + (c.avgRating || 0), 0) / userCourses.filter(c => c.avgRating).length || 0).toFixed(1)
+                : 0;
 
             setStats({
-                totalCourses,
-                totalReviews,
-                averageRating,
-                recentCourses
+                avisSoumis: totalReviewsSystem,
+                coursServices: userCourses.length,
+                mesAvis: userReviews.length,
+                noteMoyenne: avgRatingSystem
             });
+
         } catch (error) {
-            console.error('Erreur lors du chargement du dashboard:', error);
+            console.error('Erreur dashboard:', error);
             toast.error('Erreur lors du chargement des données');
         } finally {
             setLoading(false);
         }
     };
 
-    // Cartes de statistiques
-    const StatCard = ({ icon: Icon, title, value, subtitle, color, onClick }) => (
-        <div
-            onClick={onClick}
-            className={`bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow ${
-                onClick ? 'hover:scale-105 transform transition-transform' : ''
-            }`}
-        >
-            <div className="flex items-center justify-between">
-                <div>
-                    <p className="text-sm text-gray-600 mb-1">{title}</p>
-                    <h3 className="text-3xl font-bold text-gray-900">{value}</h3>
-                    {subtitle && <p className="text-xs text-gray-500 mt-1">{subtitle}</p>}
-                </div>
-                <div className={`w-12 h-12 ${color} rounded-lg flex items-center justify-center`}>
-                    <Icon className="w-6 h-6 text-white" />
-                </div>
+    const StatCard = ({ icon: Icon, label, value, color }) => (
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md transition-shadow">
+            <div className={`w-14 h-14 ${color} rounded-xl flex items-center justify-center`}>
+                <Icon size={24} />
+            </div>
+            <div>
+                <p className="text-3xl font-bold text-slate-900">{value}</p>
+                <p className="text-sm font-medium text-slate-500">{label}</p>
             </div>
         </div>
     );
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Chargement du dashboard...</p>
-                </div>
+            <div className="flex flex-col items-center justify-center min-h-[60vh]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#007AB8] mb-4"></div>
+                <p className="text-slate-500 font-medium">Chargement de votre tableau de bord...</p>
             </div>
         );
     }
 
     return (
-        <div className="space-y-6">
-            {/* En-tête de bienvenue */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg shadow-lg p-8 text-white">
-                <h1 className="text-3xl font-bold mb-2">
-                    Bienvenue, {user?.fullName || user?.username}! 👋
-                </h1>
-                <p className="text-blue-100">
-                    {isStudent && "Consultez les cours et laissez vos avis pour améliorer l'enseignement"}
-                    {isTeacher && "Consultez les retours de vos étudiants et améliorez vos cours"}
-                    {isAdmin && "Gérez le système et modérez les avis"}
-                </p>
+        <div className="space-y-10 animate-in fade-in duration-500">
+            {/* Page Header */}
+            <div>
+                <h1 className="text-3xl font-bold text-slate-900 mb-2">Tableau de bord</h1>
+                <p className="text-slate-500 font-medium">Vue d'ensemble du système de feedback</p>
             </div>
 
-            {/* Statistiques principales */}
+            {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatCard
-                    icon={BookOpen}
-                    title="Cours Disponibles"
-                    value={stats.totalCourses}
-                    subtitle="Cours et services"
-                    color="bg-blue-500"
-                    onClick={() => navigate('/courses')}
+                <StatCard 
+                    icon={MessageSquare} 
+                    label="Avis soumis" 
+                    value={stats.avisSoumis} 
+                    color="bg-blue-50 text-blue-600" 
                 />
-
-                <StatCard
-                    icon={MessageSquare}
-                    title="Avis Total"
-                    value={stats.totalReviews}
-                    subtitle="Dans tout le système"
-                    color="bg-green-500"
+                <StatCard 
+                    icon={BookOpen} 
+                    label="Cours & Services" 
+                    value={stats.coursServices} 
+                    color="bg-yellow-50 text-yellow-600" 
                 />
-
-                <StatCard
-                    icon={Star}
-                    title="Note Moyenne"
-                    value={stats.averageRating}
-                    subtitle="Sur 5 étoiles"
-                    color="bg-yellow-500"
+                <StatCard 
+                    icon={Users} 
+                    label="Mes avis" 
+                    value={stats.mesAvis} 
+                    color="bg-cyan-50 text-cyan-600" 
                 />
-
-                <StatCard
-                    icon={TrendingUp}
-                    title="Statistiques"
-                    value="Voir"
-                    subtitle="Analyses détaillées"
-                    color="bg-purple-500"
-                    onClick={() => navigate('/statistics')}
+                <StatCard 
+                    icon={TrendingUp} 
+                    label="Note moyenne" 
+                    value={stats.noteMoyenne} 
+                    color="bg-indigo-50 text-indigo-600" 
                 />
             </div>
 
-            {/* Section spécifique au rôle */}
-            {isStudent && (
-                <div className="bg-white rounded-lg shadow-md p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-bold text-gray-900">Actions Rapides</h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <button
-                            onClick={() => navigate('/courses')}
-                            className="flex items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
-                        >
-                            <BookOpen className="w-8 h-8 text-blue-600 mr-3" />
-                            <div className="text-left">
-                                <p className="font-semibold text-gray-900">Explorer les cours</p>
-                                <p className="text-xs text-gray-600">Découvrir tous les cours</p>
-                            </div>
-                        </button>
-
-                        <button
-                            onClick={() => navigate('/my-reviews')}
-                            className="flex items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
-                        >
-                            <MessageSquare className="w-8 h-8 text-green-600 mr-3" />
-                            <div className="text-left">
-                                <p className="font-semibold text-gray-900">Mes Avis</p>
-                                <p className="text-xs text-gray-600">Voir mes évaluations</p>
-                            </div>
-                        </button>
-
-                        <button
-                            onClick={() => navigate('/statistics')}
-                            className="flex items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
-                        >
-                            <TrendingUp className="w-8 h-8 text-purple-600 mr-3" />
-                            <div className="text-left">
-                                <p className="font-semibold text-gray-900">Statistiques</p>
-                                <p className="text-xs text-gray-600">Voir les tendances</p>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            )}
-
-            {isTeacher && (
-                <div className="bg-white rounded-lg shadow-md p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-bold text-gray-900">Mes Cours</h2>
-                        <button
-                            onClick={() => navigate('/received-reviews')}
-                            className="text-blue-600 hover:text-blue-700 font-medium flex items-center"
-                        >
-                            Voir tous les avis
-                            <ArrowRight className="w-4 h-4 ml-1" />
-                        </button>
-                    </div>
-                    <p className="text-gray-600">
-                        Consultez les retours de vos étudiants pour améliorer la qualité de vos enseignements.
-                    </p>
-                </div>
-            )}
-
-            {isAdmin && (
-                <div className="bg-white rounded-lg shadow-md p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-bold text-gray-900">Administration</h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <button
-                            onClick={() => navigate('/admin/users')}
-                            className="flex items-center p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors"
-                        >
-                            <Users className="w-8 h-8 text-indigo-600 mr-3" />
-                            <div className="text-left">
-                                <p className="font-semibold text-gray-900">Utilisateurs</p>
-                                <p className="text-xs text-gray-600">Gérer les comptes</p>
-                            </div>
-                        </button>
-
-                        <button
-                            onClick={() => navigate('/admin/moderation')}
-                            className="flex items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
-                        >
-                            <MessageSquare className="w-8 h-8 text-orange-600 mr-3" />
-                            <div className="text-left">
-                                <p className="font-semibold text-gray-900">Modération</p>
-                                <p className="text-xs text-gray-600">Avis en attente</p>
-                            </div>
-                        </button>
-
-                        <button
-                            onClick={() => navigate('/statistics')}
-                            className="flex items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
-                        >
-                            <Award className="w-8 h-8 text-purple-600 mr-3" />
-                            <div className="text-left">
-                                <p className="font-semibold text-gray-900">Rapports</p>
-                                <p className="text-xs text-gray-600">Statistiques globales</p>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            )}
-
-            {/* Cours récents */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold text-gray-900">Cours Récents</h2>
-                    <button
-                        onClick={() => navigate('/courses')}
-                        className="text-blue-600 hover:text-blue-700 font-medium flex items-center"
+            {/* Content Section */}
+            <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                    <h2 className="text-2xl font-bold text-slate-900">Cours populaires</h2>
+                    <button 
+                        onClick={() => navigate('/app/courses')}
+                        className="text-sm font-bold text-[#007AB8] flex items-center gap-1 hover:underline"
                     >
-                        Voir tous les cours
-                        <ArrowRight className="w-4 h-4 ml-1" />
+                        Tout voir <ChevronRight size={16} />
                     </button>
                 </div>
 
-                {stats.recentCourses.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {stats.recentCourses.map((course) => (
-                            <CourseCard key={course.courseId} course={course} />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-center py-12 text-gray-500">
-                        <BookOpen className="w-12 h-12 mx-auto mb-3 text-gray-400" />
-                        <p>Aucun cours disponible pour le moment</p>
-                    </div>
-                )}
-            </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {courses.slice(0, 6).map((course) => (
+                        <div 
+                            key={course.courseId}
+                            onClick={() => navigate(`/app/courses/${course.courseId}`)}
+                            className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-slate-200/50 transition-all cursor-pointer group"
+                        >
+                            <div className="flex justify-between items-start mb-6">
+                                <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-[#007AB8] group-hover:bg-[#007AB8] group-hover:text-white transition-colors">
+                                    {course.type === 'service' ? <Settings size={22} /> : <BookOpen size={22} />}
+                                </div>
+                                <span className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
+                                    course.type === 'service' 
+                                        ? 'bg-slate-800 text-white' 
+                                        : 'bg-[#007AB8] text-white'
+                                }`}>
+                                    {course.type === 'service' ? 'Service' : 'Cours'}
+                                </span>
+                            </div>
 
-            {/* Conseils et astuces */}
-            <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg shadow-md p-6">
-                <div className="flex items-start">
-                    <div className="flex-shrink-0">
-                        <Clock className="w-6 h-6 text-green-600 mt-1" />
-                    </div>
-                    <div className="ml-4">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">💡 Le saviez-vous?</h3>
-                        <p className="text-gray-700">
-                            {isStudent && "Vos avis constructifs aident les enseignants à améliorer leurs cours et aident les autres étudiants à faire leur choix."}
-                            {isTeacher && "Répondre aux avis des étudiants montre votre engagement et améliore la relation enseignant-étudiant."}
-                            {isAdmin && "La modération rapide des avis garantit un environnement respectueux et constructif pour tous."}
-                        </p>
-                    </div>
+                            <h3 className="text-lg font-bold text-slate-900 mb-1 group-hover:text-[#007AB8] transition-colors line-clamp-1">
+                                {course.name}
+                            </h3>
+                            <p className="text-sm text-slate-500 mb-4 flex items-center gap-2">
+                                {course.teacherName || 'Responsable'} 
+                                <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                {course.department || 'Général'}
+                            </p>
+
+                            <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+                                <div className="flex gap-0.5">
+                                    {[1, 2, 3, 4, 5].map((s) => (
+                                        <Star 
+                                            key={s} 
+                                            size={16} 
+                                            className={s <= Math.round(course.avgRating || 0) ? "fill-yellow-400 text-yellow-400" : "text-slate-200"} 
+                                        />
+                                    ))}
+                                </div>
+                                <div className="flex items-center gap-1.5 text-slate-400">
+                                    <Users size={16} />
+                                    <span className="text-xs font-bold">{course.totalReviews || 0} avis</span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+
+                    {courses.length === 0 && (
+                        <div className="col-span-full py-20 bg-slate-100/50 rounded-3xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                            <BookOpen size={48} className="mb-4 opacity-20" />
+                            <p className="font-bold">Aucun cours trouvé dans votre domaine</p>
+                            <p className="text-sm">Contactez l'administration si cela semble être une erreur.</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

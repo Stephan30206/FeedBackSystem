@@ -76,6 +76,7 @@ public class UserService {
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
                 .role(role)
+                .department(request.getDepartment())
                 .isActive(true)
                 .build();
 

@@ -8,6 +8,8 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Dashboard from './components/Dashboard/Dashboard';
 import CourseList from './components/Course/CourseList';
+import LandingPage from './components/Landing/LandingPage';
+import UserManagement from './components/Admin/UserManagement';
 import CourseDetail from './components/Course/CourseDetail';
 import ReviewForm from './components/Review/ReviewForm';
 import Statistics from './components/Statistics/Statistics';
@@ -59,13 +61,15 @@ function App() {
 
                     <Routes>
                         {/* Routes publiques */}
+                        <Route path="/" element={<LandingPage />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
 
                         {/* Routes protégées */}
-                        <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-                            <Route index element={<Navigate to="/dashboard" replace />} />
+                        <Route path="/app" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+                            <Route index element={<Navigate to="/app/dashboard" replace />} />
                             <Route path="dashboard" element={<Dashboard />} />
+                            <Route path="users" element={<UserManagement />} />
                             <Route path="courses" element={<CourseList />} />
                             <Route path="courses/:id" element={<CourseDetail />} />
                             <Route path="courses/:id/review" element={<ReviewForm />} />
@@ -73,7 +77,7 @@ function App() {
                         </Route>
 
                         {/* Route par défaut */}
-                        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                        <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
                 </Router>
             </AuthProvider>

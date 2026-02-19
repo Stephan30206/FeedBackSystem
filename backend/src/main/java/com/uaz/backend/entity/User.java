@@ -49,6 +49,9 @@ public class User {
     @Column(name = "full_name", length = 100)
     private String fullName;
 
+    @Column(name = "department", length = 100)
+    private String department;
+
     @Column(name = "is_active")
     @Builder.Default
     private Boolean isActive = true;

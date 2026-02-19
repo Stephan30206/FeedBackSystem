@@ -29,6 +29,10 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     List<String> findAllDepartments();
 
     @Query("SELECT c FROM Course c WHERE c.isActive = true AND " +
+            "(c.department = :department OR c.type = 'SERVICE')")
+    List<Course> findByDepartmentOrGlobal(@Param("department") String department);
+
+    @Query("SELECT c FROM Course c WHERE c.isActive = true AND " +
             "(LOWER(c.name) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
             "LOWER(c.code) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
             "LOWER(c.description) LIKE LOWER(CONCAT('%', :search, '%')))")
